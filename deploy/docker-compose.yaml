@@ -1,0 +1,11 @@
+services:
+  request-broker-service:
+    build:
+      context: ..\..\erp-request-broker
+      dockerfile: .\request-broker.dockerfile
+    restart: always
+    ports:
+      - "8080:80"
+    deploy:
+      mode: replicated
+      replicas: 1

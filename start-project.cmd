@@ -1,1 +1,1 @@
-start start-frontend.cmd
+start ./start-services/start-frontend.cmd
