@@ -9,7 +9,7 @@ up:
 	@echo Docker images started
 
 ## up_build: forces build then starts containers
-up_build:
+up_build: build_request_broker build_user_service
 	@echo Stopping images (if running)
 	docker-compose down
 	@echo Building images (if required) and starting...
@@ -25,11 +25,11 @@ down:
 ## build_broker: builds the broker binary as a linux executable
 build_request_broker:
 	@echo Building broker binary...
-	chdir ..\..\erp-request-broker && set GOOS=linux&& set GOARCH=amd64&& set CGO_ENABLED=0 && go build -buildvcs=false -o ${REQUEST_BROKER_BINARY} ./cmd/api
+	chdir ..\erp-request-broker && set GOOS=linux&& set GOARCH=amd64&& set CGO_ENABLED=0 && go build -o ${REQUEST_BROKER_BINARY} ./cmd/api
 	@echo Done!
 
 ## build_user_service: builds the user service binary as a linux executable
 build_user_service:
 	@echo Building user service binary...
-	chdir ..\..\erp-user-service && set GOOS=linux&& set GOARCH=amd64&& set CGO_ENABLED=0 && go build -buildvcs=false -o ${USER_SERVICE_BINARY} ./cmd/api
+	chdir ..\erp-user-service && set GOOS=linux&& set GOARCH=amd64&& set CGO_ENABLED=0 && go build -o ${USER_SERVICE_BINARY} ./cmd/api
 	@echo Done!
