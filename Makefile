@@ -1,6 +1,6 @@
 SHELL=cmd.exe
-REQUEST_BROKER_BINARY=requestBrokerApp
 USER_SERVICE_BINARY=userServiceApp
+LOGGER_SERVICE_BINARY=loggerServiceApp
 
 ## up: starts containers without forcing build
 up:
@@ -9,7 +9,7 @@ up:
 	@echo Docker images started
 
 ## up_build: forces build then starts containers
-up_build: build_user_service
+up_build: build_user_service build_logger_service
 	@echo Stopping images (if running)
 	docker-compose down
 	@echo Building images (if required) and starting...
@@ -26,4 +26,9 @@ down:
 build_user_service:
 	@echo Building user service binary...
 	chdir ..\erp-user-service && set GOOS=linux&& set GOARCH=amd64&& set CGO_ENABLED=0 && go build -o ${USER_SERVICE_BINARY} ./cmd/api
+	@echo Done!
+
+build_logger_service:
+	@echo Building logger service binary...
+	chdir ..\erp-logger-service && set GOOS=linux&& set GOARCH=amd64&& set CGO_ENABLED=0 && go build -o ${LOGGER_SERVICE_BINARY} ./
 	@echo Done!

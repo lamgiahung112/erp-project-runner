@@ -9,20 +9,44 @@ services:
       - "8080:80"
     depends_on:
       - user-service
+  logger-service:
+    container_name: logger-service
+    build:
+      context: ..\erp-logger-service
+      dockerfile: .\logger-service.dockerfile
+    restart: always
+    deploy:
+      mode: replicated
+      replicas: 1
+    environment:
+      DATABASE: logs
+      COLLECTION: logs
+      DB_USERNAME: mongo
+      DB_PASSWORD: password
   user-service:
     container_name: user-service
     build:
       context: ..\erp-user-service
       dockerfile: .\user-service.dockerfile
     restart: always
-    ports:
-      - "8081:80"
     deploy:
       mode: replicated
       replicas: 1
     environment:
       JWT_KEY: Tw0BcQe0StjzH0J+9jY23gyocYEcGbGTN6YRl0fWGmqEgJ1RiT8/LE49ZIpTnM8nTkfvHc7Sy9ZjefJJh7Pjsw==
       DSN: "host=postgres port=5432 user=postgres password=password dbname=users sslmode=disable timezone=UTC connect_timeout=5"
+  mongo:
+    container_name: mongodb
+    image: 'mongo:4.2.24-bionic'
+    restart: always
+    ports:
+      - "27017:27017"
+    environment:
+      MONGO_INITDB_DATABASE: logs
+      MONGO_INITDB_ROOT_USERNAME: mongo
+      MONGO_INITDB_ROOT_PASSWORD: password
+    volumes:
+      - ./db-data/mongo:/data/db
   postgres:
     container_name: postgres
     image: 'postgres:14.2'
