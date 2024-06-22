@@ -1,6 +1,7 @@
 SHELL=cmd.exe
 USER_SERVICE_BINARY=userServiceApp
 LOGGER_SERVICE_BINARY=loggerServiceApp
+MAILER_SERVICE_BINARY=mailerServiceApp
 
 ## up: starts containers without forcing build
 up:
@@ -31,4 +32,8 @@ build_user_service:
 build_logger_service:
 	@echo Building logger service binary...
 	chdir ..\erp-logger-service && set GOOS=linux&& set GOARCH=amd64&& set CGO_ENABLED=0 && go build -o ${LOGGER_SERVICE_BINARY} ./
+	@echo Done!
+build_mailer_service:
+	@echo Building mailer service binary...
+	cd ../../erp-mailer && env GOOS=linux GOARCH=amd64 CGO_ENABLED=0 go build -o ${MAILER_SERVICE_BINARY} ./
 	@echo Done!
