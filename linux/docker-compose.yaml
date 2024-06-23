@@ -33,6 +33,11 @@ services:
       mode: replicated
       replicas: 1
     restart: always
+    environment:
+      MAIL_HOST: smtp.gmail.com
+      MAIL_PORT: 587
+      MAIL_USERNAME: lamgiahung112@gmail.com
+      MAIL_PASSWORD: "mddy quok axnd uzqn"
     depends_on:
       - rabbitmq
   user-service:
